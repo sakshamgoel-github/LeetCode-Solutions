@@ -7,14 +7,14 @@ using namespace std;
 class Solution
 {
     unordered_map<int, bool> ump;
-    bool dfs(int node, vector<vector<int>> &graph)
+    bool solve(int node, vector<vector<int>> &graph)
     {
         if (ump.find(node) != ump.end())
             return ump[node];
         ump[node] = false;
         for (auto child : graph[node])
         {
-            if (!dfs(child, graph))
+            if (!solve(child, graph))
             {
                 return false;
             }
@@ -30,7 +30,7 @@ public:
         vector<int> ans;
         for (int i = 0; i < n; i++)
         {
-            if (dfs(i, graph))
+            if (solve(i, graph))
                 ans.push_back(i);
         }
         return ans;
