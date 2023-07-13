@@ -30,21 +30,17 @@ public:
         }
         while (!q.empty())
         {
-            int n = q.size();
-            while (n--)
+            int curr = q.front();
+            q.pop();
+            for (auto child : graph[curr])
             {
-                int curr = q.front();
-                q.pop();
-                for (auto child : graph[curr])
+                if (!vis[child])
                 {
-                    if (!vis[child])
+                    --indegree[child];
+                    if (!indegree[child])
                     {
-                        --indegree[child];
-                        if (!indegree[child])
-                        {
-                            q.push(child);
-                            vis[child] = true;
-                        }
+                        q.push(child);
+                        vis[child] = true;
                     }
                 }
             }
