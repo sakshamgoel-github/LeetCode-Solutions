@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 #define turbo                         \
     ios_base::sync_with_stdio(false); \
     cin.tie(NULL);
