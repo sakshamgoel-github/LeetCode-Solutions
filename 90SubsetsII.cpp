@@ -10,28 +10,28 @@ class Solution
     vector<vector<int>> ans;
 
 public:
-    void solve(int i, vector<int>&t, vector<int> &nums)
+    void solve(int i, vector<int> &t, vector<int> &nums)
     {
         ans.push_back(t);
         if (i >= n)
-            return;
-        int k = i;
-        while (k < n)
         {
-            t.push_back(nums[k]);
-            solve(k+1,t,nums);
+        }
+        while (i < n)
+        {   
+            t.push_back(nums[i]);
+            solve(i + 1, t, nums);
             t.pop_back();
-            while (k < (n-1) && nums[k] == nums[k + 1])
+            while (i < (n - 1) && nums[i] == nums[i + 1])
             {
-                ++k;
+                ++i;
             }
-            ++k;
+            ++i;
         }
     }
     vector<vector<int>> subsetsWithDup(vector<int> &nums)
     {
         n = nums.size();
-        sort(nums.begin(),nums.end());
+        sort(nums.begin(), nums.end());
         vector<int> t;
         solve(0, t, nums);
         return ans;
