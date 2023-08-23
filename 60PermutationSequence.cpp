@@ -1,20 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define turbo ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define turbo                         \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);
 
-class Solution {
-    vector<int>v;
-    string ans;
+class Solution
+{
+
 public:
-    void solve(int i, int k){
-        
-    }
-    string getPermutation(int n, int k) {
-        for (int i = 1; i <= n; i++)
+    string getPermutation(int n, int k)
+    {
+        vector<int> numbers;
+        int fact = 1;
+        for (int i = 1; i < n; i++)
         {
-            v.push_back(i);
+            numbers.push_back(i);
+            fact *= i;
         }
-        
+        numbers.push_back(n);
+        k--;
+        string ans = "";
+        while (1)
+        {
+            string t = to_string(numbers[k / fact]);
+            ans += t;
+            numbers.erase(numbers.begin() + k/fact);
+            k = k % fact;
+            if(!numbers.size())
+            break;
+            fact = fact / numbers.size();
+        }
+        return ans;
     }
 };
 
