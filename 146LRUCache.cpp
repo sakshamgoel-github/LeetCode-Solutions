@@ -6,51 +6,80 @@ using namespace std;
 
 class LRUCache
 {
-    list<int> dll;
-    unordered_map<int, pair<int, list<int>::iterator>> ump;
-    int n;
+    class node
+    {
+    public:
+        int key;
+        int val;
+        node *next;
+        node *prev;
+        node(int _key, int _val)
+        {
+            key = _key;
+            val = _val;
+        }
+    };
+
+    node *head;
+    node *tail;
+
+    int cap;
+    unordered_map<int, node *> ump;
 
 public:
     LRUCache(int capacity)
     {
-        n = capacity;
+        cap = capacity;
+        head = new node(-1, -1);
+        tail = new node(-1, -1);
+        head->next = tail;
+        tail->prev = head;
     }
-
+    void insertNode(node *newnode)
+    {
+        node* temp = head->next;
+        newnode->next = temp;
+        newnode->prev = head;
+        head->next = newnode;
+        temp->prev = newnode;
+    }
+    void deleteNode(node *N)
+    {   
+        node* delprev = N->prev;
+        node* delnext = N->next;
+        delprev->next = delnext;
+        delnext->prev = delprev;        
+    }
     int get(int key)
     {
-        if (ump.count(key))
+        if (ump.find(key) != ump.end())
         {
-            int ans = ump[key].first;
-            dll.erase(ump[key].second);
-            dll.push_front(key);
-            ump[key].second = dll.begin();
-            return ans;
+            node *t = ump[key];
+            int v = t->val;
+            int k = t->key;
+            ump.erase(key);
+            deleteNode(t);
+            insertNode(t);
+            ump[key] = t;
+            return v;
         }
         return -1;
     }
 
     void put(int key, int value)
     {
-        if (ump.count(key))
-        {
-            ump[key].first = value;
-            dll.erase(ump[key].second);
-            dll.push_front(key);
-            ump[key].second = dll.begin();
+        if(ump.find(key) != ump.end()){
+            node *t = ump[key];
+            ump.erase(key);
+            deleteNode(t);
         }
-        else
-        {
-            n--;
-            if (n < 0)
-            {
-                int t = dll.back();
-                ump.erase(t);
-                dll.pop_back();
-                ++n;
-            }
-            dll.push_front(key);
-            ump[key] = {value, dll.begin()};
+        if(ump.size() == cap){
+            ump.erase(tail->prev->key);
+            deleteNode(tail->prev);
         }
+        node *t = new node(key,value);
+        insertNode(t);
+        ump[key] = t;
     }
 };
 
