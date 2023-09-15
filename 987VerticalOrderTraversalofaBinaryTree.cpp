@@ -17,27 +17,41 @@ struct TreeNode
 class Solution
 {
 public:
-    int widthOfBinaryTree(TreeNode *root)
+    vector<vector<int>> verticalTraversal(TreeNode *root)
     {
-        if (root == NULL)
-            return 0;
-        long long int ans = 0;
-        queue<pair<TreeNode *, long long int>> q;
-        q.push({root, 1});
+        vector<vector<int>> ans;
+        if (!root)
+            return ans;
+        map<int, map<int, multiset<int>>> mp;
+        queue<tuple<TreeNode *, int, int>> q;
+        q.push(make_tuple(root, 0, 0));
         while (!q.empty())
         {
             int n = q.size();
-            if(1LL*(q.back().second - q.front().second + 1) > ans)
-            ans = q.back().second - q.front().second + 1;
             for (int i = 0; i < n; i++)
             {
-                pair<TreeNode *, int> curr = q.front();
+                TreeNode *curr;
+                int v, l;
+                tie(curr, v, l) = q.front();
                 q.pop();
-                if (curr.first->left)
-                    q.push({curr.first->left, 2LL * curr.second});
-                if (curr.first->right)
-                    q.push({curr.first->right, 2LL * curr.second + 1});
+                mp[v][l].insert(curr->val);
+                if (curr->left)
+                    q.push(make_tuple(curr->left, v - 1, l + 1));
+                if (curr->right)
+                    q.push(make_tuple(curr->right, v + 1, l + 1));
             }
+        }
+        for (auto &x : mp)
+        {
+            vector<int> t;
+            for (auto &y : x.second)
+            {
+                for (int z : y.second)
+                {
+                    t.push_back(z);
+                }
+            }
+            ans.push_back(t);
         }
         return ans;
     }
@@ -49,6 +63,7 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     freopen("error.txt", "w", stderr);
+
     // cerr<< "\ntime taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
     return 0;
 }
