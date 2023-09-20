@@ -27,11 +27,9 @@ public:
             q.pop();
             if(!node1 && !node2)
             continue;
-            if(node1 && !node2)
+            else if(!node1 || !node2)
             return false;
-            if(!node1 && node2)
-            return false;
-            if(node1->val!=node2->val)
+            else if(node1->val!=node2->val)
             return false;
             q.push(node1->left);
             q.push(node2->right);
