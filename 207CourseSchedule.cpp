@@ -6,51 +6,40 @@ using namespace std;
 
 class Solution
 {
-    vector<vector<int>> graph;
-
 public:
     bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
     {
-        graph.resize(numCourses);
-        vector<int> indegree(numCourses, 0);
+        vector<int> indegree(numCourses);
+        vector<vector<int>> adj(numCourses);
         for (auto &x : prerequisites)
         {
-            graph[x[1]].push_back(x[0]);
             indegree[x[0]]++;
+            adj[x[1]].push_back(x[0]);
         }
         queue<int> q;
-        vector<bool> vis(numCourses, false);
         for (int i = 0; i < numCourses; ++i)
         {
             if (!indegree[i])
-            {
                 q.push(i);
-                vis[i] = true;
-            }
         }
+        int cnt = 0;
         while (!q.empty())
         {
-            int curr = q.front();
-            q.pop();
-            for (auto child : graph[curr])
+            int n = q.size();
+            cnt += n;
+            for (int i = 0; i < n; ++i)
             {
-                if (!vis[child])
+                int curr = q.front();
+                q.pop();
+                for (auto child : adj[curr])
                 {
-                    --indegree[child];
+                    indegree[child]--;
                     if (!indegree[child])
-                    {
                         q.push(child);
-                        vis[child] = true;
-                    }
                 }
             }
         }
-        for (int i = 0; i < numCourses; ++i)
-        {
-            if (indegree[i])
-                return false;
-        }
-        return true;
+        return cnt == numCourses;
     }
 };
 
