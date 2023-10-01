@@ -36,7 +36,7 @@ typedef pair<int, int> pi;
 const int N = INT_MAX;
 const int SIZE = 1e5 + 10;
 
- int solve(int i, int j, string &s1, string &s2,vector<vector<int>>&t){
+int solve(int i, int j, string &s1, string &s2,vector<vector<int>>&t){
     if(i == 0)
     return j;
     if(j==0)
