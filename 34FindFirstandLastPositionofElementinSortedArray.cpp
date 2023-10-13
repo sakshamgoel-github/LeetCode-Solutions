@@ -7,49 +7,50 @@ using namespace std;
 class Solution
 {
 public:
-    bool searchMatrix(vector<vector<int>> &matrix, int target)
+    vector<int> searchRange(vector<int> &nums, int target)
     {
-        int n = matrix.size();
-        int m = matrix[0].size();
-
-        int lo = 0, hi = n - 1, mid;
+        int n = nums.size();
+        int lo = 0, hi = n - 1;
+        int idx = -1;
         while (lo <= hi)
         {
-            mid = (lo + hi) / 2;
-            if (target > matrix[mid][0])
+            int mid = (lo + hi) / 2;
+            if (nums[mid] == target)
             {
-                lo = mid + 1;
+                hi = mid - 1;
+                idx = mid;
             }
-            else if (target < matrix[mid][0])
+            else if (nums[mid] > target)
             {
                 hi = mid - 1;
             }
             else
             {
-                return true;
-            }
-        }
-        if(hi == -1)
-        return matrix[0][0] == target;
-        int row = hi;
-        lo = 0, hi = m - 1;
-        while (lo <= hi)
-        {
-            mid = (lo + hi) / 2;
-            if (target > matrix[row][mid])
-            {
                 lo = mid + 1;
             }
-            else if (target < matrix[row][mid])
+        }
+        vector<int> ans;
+        ans.push_back(idx);
+        idx = -1, lo = 0, hi = n - 1;
+        while (lo <= hi)
+        {
+            int mid = (lo + hi) / 2;
+            if (nums[mid] == target)
+            {
+                lo = mid + 1;
+                idx = mid;
+            }
+            else if (nums[mid] > target)
             {
                 hi = mid - 1;
             }
             else
             {
-                return true;
+                lo = mid + 1;
             }
         }
-        return false;
+        ans.push_back(idx);
+        return ans;
     }
 };
 
