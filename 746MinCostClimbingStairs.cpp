@@ -1,22 +1,26 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define turbo ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define turbo                         \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);
 
-class Solution {
-    vector<int>t;
+class Solution
+{
+    vector<int> t;
 public:
-    int solve(int ind,vector<int>& cost){
-        if(ind >= cost.size())
-        return 0;
-        if(t[ind] != -1) return t[ind];
-        int choice1 = solve(ind+1, cost);
-        int choice2 = solve(ind+2, cost);
-
-        return t[ind] = min(choice1, choice2) + cost[ind];
-    }
-    int minCostClimbingStairs(vector<int>& cost) {
-        t.resize(cost.size(),-1);
-        return min(solve(0,cost), solve(1, cost));
+    int minCostClimbingStairs(vector<int> &cost)
+    {
+        if (cost.size() == 2)
+            return min(cost[0], cost[1]);
+        int n = cost.size();
+        int a = cost[0],b = cost[1],c;
+        for (int i = 2; i < n; i++)
+        {
+            c = min(a,b) + cost[i];
+            a = b;
+            b = c;
+        }
+        return min(a,b);
     }
 };
 
