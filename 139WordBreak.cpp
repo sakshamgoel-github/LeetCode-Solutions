@@ -4,41 +4,38 @@ using namespace std;
     ios_base::sync_with_stdio(false); \
     cin.tie(NULL);
 
-class Solution
-{
-    unordered_set<string> hash;
-    int N;
-    vector<int>t;
-    bool solve(int ind, string &s)
-    {
-        if (ind >= N)
+class Solution {
+    set<string> st;
+    vector<int> t;
+
+    bool solve(int i, string& s) {
+        if (i >= s.length()) {
             return true;
+        }
+
+        if (t[i] != -1) return t[i];
+                
+        string str = "";
+        for (int k = i; k < s.length(); ++k) {
         
-        if (t[ind]!=-1)
-        return t[ind];
-
-        if(hash.find(s) != hash.end())
-        return true;
-
-        for(int l = 1;l<=N;++l){
-            string temp = s.substr(ind,l);
-            if(hash.find(temp) != hash.end() && solve(ind+l,s)){
-                return t[ind] = true;
+            str += s[k];
+            if (st.find(str) != st.end()) {
+                if (solve(k + 1, s)) return t[i] = true;
             }
         }
-        return t[ind] = false;
+        
+        return t[i] = false;
     }
 
 public:
-    bool wordBreak(string s, vector<string> &wordDict)
-    {
-        this->N = s.length();
-        for (string &s : wordDict)
-            hash.insert(s);
-        t.resize(N+1,-1);
-        return solve(0,s); 
+    bool wordBreak(string s, vector<string>& wordDict) {
+        if (st.find(s) != st.end()) return true;
+        for (auto& str : wordDict) st.insert(str);
+        t.resize(s.length() + 1, -1);
+        return solve(0, s);
     }
 };
+
 
 int main()
 {
@@ -46,7 +43,6 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     freopen("error.txt", "w", stderr);
-
     // cerr<< "\ntime taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
     return 0;
 }
