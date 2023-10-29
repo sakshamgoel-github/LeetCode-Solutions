@@ -14,7 +14,7 @@ public:
 		string curr = "";
 		int mini = s.length();
 		for (int i = ind; i < s.length(); ++i)
-		{
+		{ 
 			curr.push_back(s[i]);
 			int currExtra = curr.length();
 			if(ump.find(curr) != ump.end()){
