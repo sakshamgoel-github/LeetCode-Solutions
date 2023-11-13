@@ -6,21 +6,20 @@ using namespace std;
 
 class Solution
 {
-    vector<int> t;
-public: 
-    int minCostClimbingStairs(vector<int> &cost)
+public:
+    void moveZeroes(vector<int> &nums)
     {
-        if (cost.size() == 2)
-            return min(cost[0], cost[1]);
-        int n = cost.size();
-        int a = cost[0],b = cost[1],c;
-        for (int i = 2; i < n; i++)
+        int n = nums.size();
+        int i = 0;
+        for (int j = 0; j < n; j++)
         {
-            c = min(a,b) + cost[i];
-            a = b;
-            b = c;
+            if(nums[j] != 0){
+                nums[i++] = nums[j];               
+            }
         }
-        return min(a,b);
+        for(;i < n;++i){
+            nums[i] = 0;
+        }
     }
 };
 
