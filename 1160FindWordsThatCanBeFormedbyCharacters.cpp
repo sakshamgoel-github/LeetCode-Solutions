@@ -5,26 +5,30 @@ using namespace std;
     cin.tie(NULL);
 
 class Solution
-{   long long int MOD = 1e9+7;
+{
 public:
-    int countHomogenous(string s)
+    int countCharacters(vector<string> &words, string chars)
     {
-        int n = s.length();
-        int ans = 0;
-        int l = 1;
-        char ch = s[0];
-        for (int i = 0; i < n; i++)
+        vector<int> hash(26, 0);
+        for (char ch : chars)
         {
-            if (s[i] == ch)
-                ++l;
-            else
-            {
-                ans = (ans + (l * 1LL * (l + 1) / 2) % MOD) % MOD;
-                l = 1;
-                ch = s[i];
-            }
+            hash[ch - 'a']++;
         }
-        ans = (ans + (l * 1LL * (l + 1) / 2) % MOD) % MOD;
+        int ans = 0;
+        for (int i = 0; i < words.size(); i++)
+        {
+            vector<int> freq(26, 0);
+            for (char ch : words[i])
+            {
+                freq[ch - 'a']++;
+            }
+            int k=0;
+            while(k < 26){
+                if(freq[k] > hash[k]) break;
+                ++k;
+            }
+            if(k == 26) ans += words[i].length();
+        }
         return ans;
     }
 };

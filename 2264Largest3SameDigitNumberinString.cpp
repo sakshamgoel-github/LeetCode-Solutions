@@ -6,21 +6,18 @@ using namespace std;
 
 class Solution
 {
-    vector<int> t;
-public: 
-    int minCostClimbingStairs(vector<int> &cost)
+public:
+    string largestGoodInteger(string num)
     {
-        if (cost.size() == 2)
-            return min(cost[0], cost[1]);
-        int n = cost.size();
-        int a = cost[0],b = cost[1],c;
-        for (int i = 2; i < n; i++)
+        int n = num.length();
+        char maxi = ' ';
+        for (int i = 0; i < n - 2; i++)
         {
-            c = min(a,b) + cost[i];
-            a = b;
-            b = c;
+            if (num[i] == num[i + 1] && num[i] == num[i + 2])
+                maxi = max(maxi, num[i]);
         }
-        return min(a,b);
+        if(maxi == ' ') return "";
+        return string(3,maxi);
     }
 };
 

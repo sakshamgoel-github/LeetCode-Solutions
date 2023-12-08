@@ -1,47 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define turbo ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define turbo                         \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);
 
-struct Job 
-{ 
-    int id;	 // Job Id 
-    int dead; // Deadline of job 
-    int profit; // Profit if job is over before or on deadline 
-};
-
-class Solution 
+struct Job
 {
-    public:
-    // Static member function for comparison
-    static bool compareFunc(Job &a, Job &b){
-        return a.profit > b.profit;
-    }
-    
-    vector<int> JobScheduling(Job arr[], int n) 
-    { 
-        sort(arr, arr + n, compareFunc);
-
-        int maxDeadline = 0;
-        for (int i = 0; i < n; ++i) {
-            maxDeadline = max(maxDeadline, arr[i].dead);
+    int id;     // Job Id
+    int dead;   // Deadline of job
+    int profit; // Profit if job is over before or on deadline
+};
+bool compare(Job &a, Job &b)
+{
+    return a.profit > b.profit;
+}
+class Solution
+{
+public:
+    // Function to find the maximum profit and the number of jobs done.
+    vector<int> JobScheduling(Job arr[], int n)
+    {
+        // your code here
+        int maxtime = 0;
+        for (int i = 0; i < n; ++i)
+        {
+            maxtime = max(maxtime, arr[i].dead);
         }
-        
-        vector<int> time(maxDeadline + 1, -1);
-        int maxi = 0, num = 0;
-        
-        for (int i = 0; i < n; ++i) {
-            for (int j = arr[i].dead; j > 0; --j) {
-                if (time[j] == -1) {
-                    time[j] = i;
-                    maxi += arr[i].profit;
-                    ++num;
-                    break;
-                }
+        vector<bool> slots(maxtime+1, false);
+        sort(arr, arr + n, compare);
+        int ans = 0,cnt = 0;
+        for(int i=0;i<n;++i){
+            int d = arr[i].dead;
+            int p = arr[i].profit;
+            int k = d;
+            while (k>0 && slots[k])
+            {
+                --k;
+            }
+            if(k != 0){
+                slots[k] = true;
+                ans += p;
+                ++cnt;
             }
         }
-        
-        return {num, maxi};
-    } 
+        return {cnt,ans};
+    }
 };
 
 int main()

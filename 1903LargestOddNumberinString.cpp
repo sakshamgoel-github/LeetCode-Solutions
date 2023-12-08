@@ -4,10 +4,19 @@ using namespace std;
 
 class Solution {
 public:
-    bool isPowerOfFour(int n) {
-        if(n <= 0) return false;
-        if((n & (n-1)) == 0 && (n-1)%3 == 0) return true;
+    bool isOdd(char ch){
+        if(ch == '1' || ch == '3' || ch == '5' || ch == '7' || ch == '9') return true;
         return false;
+    }
+    string largestOddNumber(string num) {
+        string ans = "";
+        int i = num.length();
+        while(i > 0){
+            if(isOdd(num[i-1])) break;
+            --i;
+        }
+        for(int k = 0 ; k < i;++k) ans += num[k];
+        return ans;
     }
 };
 

@@ -7,23 +7,28 @@ using namespace std;
 class Solution
 {
 public:
-    int reductionOperations(vector<int> &nums)
+    int minimumOneBitOperations(int n)
     {
-        sort(nums.begin(), nums.end());
-        int smallest = nums[0];
+        vector<long long> F(31);
+        F[0] = 1;
+        for (int i = 1; i < 31; i++)
+        {
+            F[i] = 2 * F[i - 1] + 1;
+        }
+        bool sign = false;
         int ans = 0;
-        int cnt = 0;
-        int prev = nums[0];
-        for (int i = 1; i < nums.size(); i++)
-        {   
-            if(nums[i] != prev){
-                prev = nums[i];
-                ++cnt;
-            }
-            if (nums[i] != smallest)
+        for (int i = 30; i >= 0; --i)
+        {
+            int ithBit = ((1 << i) & n);
+            if (!ithBit)
+                continue;
+            if (sign)
             {
-                ans += cnt;
+                ans -= F[i];
             }
+            else
+                ans += F[i];
+            sign = !sign;
         }
         return ans;
     }

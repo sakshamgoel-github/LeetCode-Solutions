@@ -12,23 +12,30 @@ struct TreeNode {
 };
 
 class Solution {
-    int ans;
 public:
-    pair<int,int> postOrder(TreeNode *node){
-        if(node){
-            pair<int,int>left = postOrder(node->left);
-            pair<int,int>right = postOrder(node->right);
-            int cnt = 1,sum = node->val;
-            sum += left.first+right.first;
-            cnt += left.second+right.second;
-            if((sum/cnt) == node->val) ++ans;
-            return {sum,cnt};
-        }
-        return {0,0};
-    }
-    int averageOfSubtree(TreeNode* root) {
-        postOrder(root);
-        return ans;
+    string tree2str(TreeNode* root) {
+       if(!root) return "";
+       string l = tree2str(root -> left);
+       string r = tree2str(root -> right);
+       string ans = "";
+       string v = to_string(root -> val);
+       ans+=v;
+       if(r.length()){
+           ans.push_back('(');
+           ans+=l;
+           ans.push_back(')');
+           ans.push_back('(');
+           ans+=r;
+           ans.push_back(')');
+       } 
+       else{
+           if(l.length()){
+           ans.push_back('(');
+           ans+=l;
+           ans.push_back(')');   
+           }
+       }
+       return ans;
     }
 };
 
