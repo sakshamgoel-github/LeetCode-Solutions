@@ -4,7 +4,7 @@ using namespace std;
     ios_base::sync_with_stdio(false); \
     cin.tie(NULL);
 
-class Solution
+class Solution  
 {
 public:
     int islandPerimeter(vector<vector<int>> &grid)
