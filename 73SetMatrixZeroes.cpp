@@ -1,41 +1,51 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define turbo                         \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(NULL);
+#define turbo ios_base::sync_with_stdio(false);cin.tie(NULL);
 
-class Solution
-{
+class Solution {
 public:
-    void setZeroes(vector<vector<int>> &matrix)
-    {
-        vector<int> row;
-        vector<int> col;
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        bool row = false, col = false;
 
-        int N = matrix.size();
-        int M = matrix[0].size();
+        for (int i = 0; i < n; ++i) {
+            if (matrix[i][0] == 0) {
+                col = true;
+            }
+        }
 
-        for (int i = 0; i < N; ++i)
-        {
-            for (int j = 0; j < M; ++j)
-            {
-                if (!matrix[i][j])
-                {
-                    row.push_back(i);
-                    col.push_back(j);
+        for (int j = 0; j < m; ++j) {
+            if (matrix[0][j] == 0) {
+                row = true;
+            }
+        }
+
+        for (int i = 1; i < n; ++i) {
+            for (int j = 1; j < m; ++j) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
                 }
             }
         }
 
-        for (int r : row)
-        {
-            for (int k = 0; k < M; ++k)
-                matrix[r][k] = 0;
+        for (int i = 1; i < n; ++i) {
+            for (int j = 1; j < m; ++j) {
+                if (matrix[0][j] == 0 || matrix[i][0] == 0)
+                    matrix[i][j] = 0;
+            }
         }
-        for (int c : col)
-        {
-            for (int k = 0; k < N; ++k)
-                matrix[k][c] = 0;
+
+        if (row) {
+            for (int j = 0; j < m; ++j) {
+                matrix[0][j] = 0;
+            }
+        }
+        if (col) {
+            for (int i = 0; i < n; ++i) {
+                matrix[i][0] = 0;
+            }
         }
     }
 };
