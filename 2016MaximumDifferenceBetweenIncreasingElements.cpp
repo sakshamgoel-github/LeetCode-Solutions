@@ -4,17 +4,21 @@ using namespace std;
     ios_base::sync_with_stdio(false); \
     cin.tie(NULL);
 
-class Solution{
+class Solution
+{
 public:
-    bool comp(vector<int> &a, vector<int> &b){
-        return ((a[1] - a[0]) < (b[1] - b[0]));
-    }
-    bool solve(int left, int right, vector<int> &nums, vector<vector<int>> &queries){
-                
-    }
-    int maxRemoval(vector<int> &nums, vector<vector<int>> &queries){
-        sort(queries.begin(),queries.end(),comp);
-
+    int maximumDifference(vector<int> &nums)
+    {
+        int maxi = -1;
+        int minEle = nums[0];
+        for(int i=1;i<nums.size();++i){
+            if(nums[i] <= minEle) minEle = nums[i];
+            else{
+                int t = nums[i] - minEle;
+                maxi = max(maxi,t);
+            }
+        }
+        return maxi;
     }
 };
 

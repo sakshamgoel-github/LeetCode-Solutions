@@ -4,30 +4,37 @@ using namespace std;
 
 class Solution {
     int N;
+    vector<vector<int>>t;
 public:
-    int solve(int ind, int k,vector<vector<int>>& events,vector<vector<int>>&t){
-        if( ind>=N || !k)
-        return 0;
+    int solve(int ind, int k, vector<vector<int>>& events){
+        if(ind == N || k == 0)
+            return 0;
 
         if(t[ind][k] != -1)
-        return t[ind][k];
-
-        int i=ind+1;
-        for(;i<N;++i){
-            if(events[ind][1] < events[i][0])
-            break;
+            return t[ind][k];
+        
+        int not_take = solve(ind + 1, k, events);
+        int lo = ind + 1, hi = N-1;
+        int j = N;
+        while(lo <= hi){
+            int mid = (lo + hi)/2;
+            if(events[mid][0] > events[ind][1]){
+                hi = mid - 1;
+                j = mid;
+            } else {
+                lo = mid + 1;
+            }
         }
-
-        int ans1 = events[ind][2] + solve(i,k-1,events,t);
-        int ans2 = solve(ind+1,k,events,t);
-
-        return t[ind][k] = max(ans1,ans2);
+        int take = events[ind][2] + solve(j,k-1,events);
+        int ans = max(take, not_take);
+        return t[ind][k] = ans;
     }
+
     int maxValue(vector<vector<int>>& events, int k) {
-        this -> N = events.size();
-        sort(events.begin(),events.end());
-        vector<vector<int>>t(N+1,vector<int>(k+1,-1));
-        return solve(0,k,events,t);
+        N = events.size();
+        t.resize(N+1, vector<int>(k+1,-1));
+        sort(events.begin(), events.end());
+        return solve(0,k,events);
     }
 };
 

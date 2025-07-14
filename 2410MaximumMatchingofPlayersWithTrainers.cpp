@@ -4,19 +4,18 @@ using namespace std;
 
 class Solution {
 public:
-    int countSeniors(vector<string>& details) {
-        int ans = 0;
-        int n = details.size();
-        for (int i = 0; i < n; i++) {
-            if (details[i][11] < '6') {
+    int matchPlayersAndTrainers(vector<int>& players, vector<int>& trainers) {
+        sort(trainers.begin(), trainers.end());
+        sort(players.begin(), players.end());
 
-            } else if (details[i][11] == '6' && details[i][12] > '0') {
-                // cout<<details[i]<<"\n";
+        int i = 0, ans = 0;
+        for (int j = 0; j < trainers.size(); ++j) {
+            if (players[i] <= trainers[j]) {
                 ++ans;
-            } else if (details[i][11] > '6'){
-                // cout<<details[i]<<"\n";
-                ++ans;
-            }
+                ++i;
+            } 
+            if(i == players.size())
+             break;
         }
         return ans;
     }

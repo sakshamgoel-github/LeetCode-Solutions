@@ -4,17 +4,17 @@ using namespace std;
 
 class Solution {
 public:
-    long long distributeCandies(int n, int limit) {
-        long long ways = 0;
-        int LIMIT = min(n,limit);
-        for(int i=0;i<=LIMIT;++i){
-            int N = n - i;
-            int mini = max(0,N - LIMIT);
-            int maxi = min(N,LIMIT);
-            if(mini <= maxi)
-            ways = ways + (maxi - (mini) + 1)*1LL;
+    long long kthSmallestProduct(vector<int>& nums1, vector<int>& nums2, long long k) {
+        int n1 = nums1.size();      
+        int n2 = nums2.size();
+        priority_queue<long long>mh;
+        for(int i=0;i<n1;++i){
+            for(int j=0;j<n2;++j){
+                mh.push(nums1[i]*1LL*nums2[j]);
+                if(mh.size() > k) mh.pop();
+            }
         }      
-        return ways;
+        return mh.top();
     }
 };
 

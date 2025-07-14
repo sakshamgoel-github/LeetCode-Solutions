@@ -2,21 +2,24 @@
 using namespace std;
 #define turbo ios_base::sync_with_stdio(false);cin.tie(NULL);
 
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
 class Solution {
 public:
-    int countSeniors(vector<string>& details) {
+    int getDecimalValue(ListNode* head) {
         int ans = 0;
-        int n = details.size();
-        for (int i = 0; i < n; i++) {
-            if (details[i][11] < '6') {
-
-            } else if (details[i][11] == '6' && details[i][12] > '0') {
-                // cout<<details[i]<<"\n";
-                ++ans;
-            } else if (details[i][11] > '6'){
-                // cout<<details[i]<<"\n";
-                ++ans;
-            }
+        ans |= head -> val;
+        ListNode *curr = head -> next;
+        while(curr){
+            ans <<= 1;
+            ans |= curr->val;
+            curr = curr -> next;
         }
         return ans;
     }
@@ -28,7 +31,7 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     freopen("error.txt", "w", stderr);
-
+    
     // cerr<< "\ntime taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
     return 0;
 }

@@ -1,18 +1,22 @@
-#include <bits/stdc++.h>
+#include <bits/stdc++.h>    
 using namespace std;
 #define turbo ios_base::sync_with_stdio(false);cin.tie(NULL);
 
 class Solution {
-    public:
-        bool checkPowersOfThree(int n) {
-            while(n > 0){
-                if(n%3 == 2)
-                    return false;
-                n/=3;
-            }    
-            return true;
+public:
+    int possibleStringCount(string word) {
+        int ans = 1, n = word.length();
+        int i = 0, j = 1;
+        for (; j < n; ++j) {
+            if (word[i] != word[j]) {
+                ans += j - i - 1;
+                i = j;
+            }
         }
-    };
+        ans += j - i - 1;
+        return ans;
+    }
+};
 
 int main()
 {

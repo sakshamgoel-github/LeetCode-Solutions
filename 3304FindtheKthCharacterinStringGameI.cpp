@@ -3,16 +3,17 @@ using namespace std;
 #define turbo ios_base::sync_with_stdio(false);cin.tie(NULL);
 
 class Solution {
-    public:
-        bool checkPowersOfThree(int n) {
-            while(n > 0){
-                if(n%3 == 2)
-                    return false;
-                n/=3;
-            }    
-            return true;
-        }
-    };
+public:
+    char kthCharacter(int k) {
+        --k;
+        int shift = 0;
+        while(k){
+            shift += k&1;
+            k /= 2;
+        }    
+        return char('a'+shift);
+    }
+};
 
 int main()
 {
