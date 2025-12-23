@@ -2,24 +2,21 @@
 using namespace std;
 #define turbo ios_base::sync_with_stdio(false);cin.tie(NULL);
 
-struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
-};
-
 class Solution {
 public:
-    int getDecimalValue(ListNode* head) {
+    int countTriples(int n) {
         int ans = 0;
-        ans |= head -> val;
-        ListNode *curr = head -> next;
-        while(curr){
-            ans <<= 1;
-            ans |= curr->val;
-            curr = curr -> next;
+        for (int i = 2; i < n; ++i)
+        {
+            for (int j = i+1; j < n; ++j)
+            {
+                for (int k = j+1; k <= n; ++k)
+                {
+                    int sum = (i*i) + (j*j);
+                    if(sum == (k*k))
+                        ans += 2;
+                }                
+            }            
         }
         return ans;
     }
@@ -31,7 +28,8 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
     freopen("error.txt", "w", stderr);
-    
+    Solution obj;
+    cout<<obj.countTriples(10);
     // cerr<< "\ntime taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
     return 0;
 }

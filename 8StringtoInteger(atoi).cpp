@@ -7,7 +7,7 @@ using namespace std;
 class Solution
 {
 public:
-    int myAtoi(string s)
+    int myAtoi(string s) 
     {
         int n = s.length();
         int i = 0;
